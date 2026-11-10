@@ -1,0 +1,37 @@
+{
+  "objetivo": "Alimentación del satélite de voz r1: 5 V por USB-C, fusible rearmable y regulador de 3,3 V, con las cargas del módulo Wi-Fi, el amplificador y el LED",
+  "nota": "Los valores marcados como declarados salen de las hojas de datos según mi lectura; hay que verificarlos contra el documento del fabricante antes de fabricar. Una simulación aprobada no valida el producto físico.",
+  "stop_s": 0.06,
+  "max_step_s": 2e-06,
+  "ventana_s": [0.03, 0.06],
+  "limites": {
+    "v3v3_v": [3.0, 3.6],
+    "v5_min_v": 3.7,
+    "fusible_retencion_a": 0.8,
+    "espera_en_min_s": 5e-05,
+    "ldo_potencia_max_w": 0.4
+  },
+  "declarados": {
+    "fuente_cable_ohm": 0.25,
+    "fusible_ohm": 0.21,
+    "fusible_retencion_a": "1,0 A a 23 °C; 0,8 A con reducción por temperatura (declarado)",
+    "ldo": {"vset": 3.3, "rpass": 0.42, "ilim": 0.75, "gain": 200},
+    "esp32_base_a": 0.08,
+    "esp32_pico_wifi_a": 0.34,
+    "esp32_rafaga": {"ancho_s": 0.0015, "periodo_s": 0.005},
+    "led_a": 0.06,
+    "amplificador_rendimiento": 0.9,
+    "amplificador_potencia_w": {"8": 1.8, "4": 3.2},
+    "umbral_en_v": 2.475,
+    "usb2_puerto_a": 0.5
+  },
+  "casos": [
+    {"id": "nominal", "vin": 5.0, "parlante_ohm": 8, "cap_escala": 1.0},
+    {"id": "usb_minimo", "vin": 4.75, "parlante_ohm": 8, "cap_escala": 1.0},
+    {"id": "capacitores_con_polarizacion", "vin": 5.0, "parlante_ohm": 8, "cap_escala": 0.5},
+    {"id": "sin_audio", "vin": 5.0, "parlante_ohm": 0, "cap_escala": 1.0},
+    {"id": "repeticion", "vin": 5.0, "parlante_ohm": 8, "cap_escala": 1.0, "igual_a": "nominal"},
+    {"id": "defecto_parlante_4_ohm", "vin": 5.0, "parlante_ohm": 4, "cap_escala": 1.0, "debe_fallar": ["fusible"]},
+    {"id": "defecto_regulador_sin_habilitar", "vin": 5.0, "parlante_ohm": 8, "cap_escala": 1.0, "en_a_masa": true, "debe_fallar": ["v3v3"]}
+  ]
+}

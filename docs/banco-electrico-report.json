@@ -1,0 +1,287 @@
+{
+  "passed": true,
+  "hardware": "no_validado",
+  "versions": {
+    "kicad": "10.0.7",
+    "ngspice": "47",
+    "python": "3.13.13"
+  },
+  "spec": {
+    "objetivo": "Alimentación del satélite de voz r1: 5 V por USB-C, fusible rearmable y regulador de 3,3 V, con las cargas del módulo Wi-Fi, el amplificador y el LED",
+    "nota": "Los valores marcados como declarados salen de las hojas de datos según mi lectura; hay que verificarlos contra el documento del fabricante antes de fabricar. Una simulación aprobada no valida el producto físico.",
+    "stop_s": 0.06,
+    "max_step_s": 2e-06,
+    "ventana_s": [
+      0.03,
+      0.06
+    ],
+    "limites": {
+      "v3v3_v": [
+        3.0,
+        3.6
+      ],
+      "v5_min_v": 3.7,
+      "fusible_retencion_a": 0.8,
+      "espera_en_min_s": 5e-05,
+      "ldo_potencia_max_w": 0.4
+    },
+    "declarados": {
+      "fuente_cable_ohm": 0.25,
+      "fusible_ohm": 0.21,
+      "fusible_retencion_a": "1,0 A a 23 °C; 0,8 A con reducción por temperatura (declarado)",
+      "ldo": {
+        "vset": 3.3,
+        "rpass": 0.42,
+        "ilim": 0.75,
+        "gain": 200
+      },
+      "esp32_base_a": 0.08,
+      "esp32_pico_wifi_a": 0.34,
+      "esp32_rafaga": {
+        "ancho_s": 0.0015,
+        "periodo_s": 0.005
+      },
+      "led_a": 0.06,
+      "amplificador_rendimiento": 0.9,
+      "amplificador_potencia_w": {
+        "8": 1.8,
+        "4": 3.2
+      },
+      "umbral_en_v": 2.475,
+      "usb2_puerto_a": 0.5
+    },
+    "casos": [
+      {
+        "id": "nominal",
+        "vin": 5.0,
+        "parlante_ohm": 8,
+        "cap_escala": 1.0
+      },
+      {
+        "id": "usb_minimo",
+        "vin": 4.75,
+        "parlante_ohm": 8,
+        "cap_escala": 1.0
+      },
+      {
+        "id": "capacitores_con_polarizacion",
+        "vin": 5.0,
+        "parlante_ohm": 8,
+        "cap_escala": 0.5
+      },
+      {
+        "id": "sin_audio",
+        "vin": 5.0,
+        "parlante_ohm": 0,
+        "cap_escala": 1.0
+      },
+      {
+        "id": "repeticion",
+        "vin": 5.0,
+        "parlante_ohm": 8,
+        "cap_escala": 1.0,
+        "igual_a": "nominal"
+      },
+      {
+        "id": "defecto_parlante_4_ohm",
+        "vin": 5.0,
+        "parlante_ohm": 4,
+        "cap_escala": 1.0,
+        "debe_fallar": [
+          "fusible"
+        ]
+      },
+      {
+        "id": "defecto_regulador_sin_habilitar",
+        "vin": 5.0,
+        "parlante_ohm": 8,
+        "cap_escala": 1.0,
+        "en_a_masa": true,
+        "debe_fallar": [
+          "v3v3"
+        ]
+      }
+    ]
+  },
+  "cases": {
+    "nominal": {
+      "checks": {
+        "v3v3": true,
+        "v5": true,
+        "fusible": true,
+        "secuencia_en": true,
+        "ldo_potencia": true
+      },
+      "metrics": {
+        "v3v3_min_v": 3.298299368078,
+        "v3v3_max_v": 3.299999725651,
+        "v5_min_v": 4.449222700282,
+        "corriente_media_a": 0.6191195114091199,
+        "corriente_pico_a": 1.197341955909,
+        "ldo_potencia_media_w": 0.21746964305141317,
+        "ldo_potencia_pico_w": 0.55540896823484,
+        "espera_en_s": 0.0136741220454909,
+        "amplificador_media_a": 0.4,
+        "muestras": 30124
+      },
+      "cumple_todo": true,
+      "passed": true
+    },
+    "usb_minimo": {
+      "checks": {
+        "v3v3": true,
+        "v5": true,
+        "fusible": true,
+        "secuencia_en": true,
+        "ldo_potencia": true
+      },
+      "metrics": {
+        "v3v3_min_v": 3.298299367674,
+        "v3v3_max_v": 3.299999725104,
+        "v5_min_v": 4.199222686919,
+        "corriente_media_a": 0.6191195229418479,
+        "corriente_pico_a": 1.197341984959,
+        "ldo_potencia_media_w": 0.17796292534543587,
+        "ldo_potencia_pico_w": 0.47040896785608016,
+        "espera_en_s": 0.013663932929265201,
+        "amplificador_media_a": 0.4,
+        "muestras": 30126
+      },
+      "cumple_todo": true,
+      "passed": true
+    },
+    "capacitores_con_polarizacion": {
+      "checks": {
+        "v3v3": true,
+        "v5": true,
+        "fusible": true,
+        "secuencia_en": true,
+        "ldo_potencia": true
+      },
+      "metrics": {
+        "v3v3_min_v": 3.298299541748,
+        "v3v3_max_v": 3.299999726146,
+        "v5_min_v": 4.448293424475,
+        "corriente_media_a": 0.6191196118937843,
+        "corriente_pico_a": 1.199362120707,
+        "ldo_potencia_media_w": 0.21744078951440127,
+        "ldo_potencia_pico_w": 0.5560096189899602,
+        "espera_en_s": 0.0136681420872004,
+        "amplificador_media_a": 0.4,
+        "muestras": 30129
+      },
+      "cumple_todo": true,
+      "passed": true
+    },
+    "sin_audio": {
+      "checks": {
+        "v3v3": true,
+        "v5": true,
+        "fusible": true,
+        "secuencia_en": true,
+        "ldo_potencia": true
+      },
+      "metrics": {
+        "v3v3_min_v": 3.298299368078,
+        "v3v3_max_v": 3.299999725651,
+        "v5_min_v": 4.81596687846,
+        "corriente_media_a": 0.21910636774820474,
+        "corriente_pico_a": 0.4000720033476,
+        "ldo_potencia_media_w": 0.24654267217769038,
+        "ldo_potencia_pico_w": 0.5562307039552802,
+        "espera_en_s": 0.0136741220454909,
+        "amplificador_media_a": 0.0,
+        "muestras": 30124
+      },
+      "cumple_todo": true,
+      "passed": true
+    },
+    "repeticion": {
+      "checks": {
+        "v3v3": true,
+        "v5": true,
+        "fusible": true,
+        "secuencia_en": true,
+        "ldo_potencia": true
+      },
+      "metrics": {
+        "v3v3_min_v": 3.298299368078,
+        "v3v3_max_v": 3.299999725651,
+        "v5_min_v": 4.449222700282,
+        "corriente_media_a": 0.6191195114091199,
+        "corriente_pico_a": 1.197341955909,
+        "ldo_potencia_media_w": 0.21746964305141317,
+        "ldo_potencia_pico_w": 0.55540896823484,
+        "espera_en_s": 0.0136741220454909,
+        "amplificador_media_a": 0.4,
+        "muestras": 30124
+      },
+      "cumple_todo": true,
+      "passed": true,
+      "identico": true
+    },
+    "defecto_parlante_4_ohm": {
+      "checks": {
+        "v3v3": true,
+        "v5": true,
+        "fusible": false,
+        "secuencia_en": true,
+        "ldo_potencia": true
+      },
+      "metrics": {
+        "v3v3_min_v": 3.298299368078,
+        "v3v3_max_v": 3.299999725651,
+        "v5_min_v": 4.163977187667,
+        "corriente_media_a": 0.9302408453564921,
+        "corriente_pico_a": 1.817440896376,
+        "ldo_potencia_media_w": 0.19485728706511665,
+        "ldo_potencia_pico_w": 0.554788637716,
+        "espera_en_s": 0.0136741220454909,
+        "amplificador_media_a": 0.7111111111111111,
+        "muestras": 30124
+      },
+      "cumple_todo": false,
+      "passed": true,
+      "control_negativo": [
+        "fusible"
+      ]
+    },
+    "defecto_regulador_sin_habilitar": {
+      "checks": {
+        "v3v3": false,
+        "v5": true,
+        "fusible": true,
+        "secuencia_en": false,
+        "ldo_potencia": false
+      },
+      "metrics": {
+        "v3v3_min_v": -0.5217356564499,
+        "v3v3_max_v": 1.520615537226e-13,
+        "v5_min_v": 4.605630469482,
+        "corriente_media_a": 0.46006814366092985,
+        "corriente_pico_a": 0.8573250663442,
+        "ldo_potencia_media_w": 0.8363175658610392,
+        "ldo_potencia_pico_w": 1.86756386151319,
+        "espera_en_s": null,
+        "amplificador_media_a": 0.4,
+        "muestras": 30132
+      },
+      "cumple_todo": false,
+      "passed": true,
+      "control_negativo": [
+        "v3v3"
+      ]
+    }
+  },
+  "hallazgos": [
+    "Con parlante de 8 Ω a potencia máxima y Wi-Fi transmitiendo, el consumo medio es 0.62 A: supera los 0.5 A de un puerto USB 2.0. Pide una fuente de 1 A o más, o limitar el volumen en el firmware.",
+    "El regulador disipa 0.56 W durante cada ráfaga de Wi-Fi (media 0.22 W). Con transmisión sostenida hay que medir su temperatura."
+  ],
+  "input_sha256": {
+    "satelite_voz.kicad_sch": "c5284252269d66cf3dd0f763601dbb73bbe51048b0b6eaaa273a4b6637f2641f",
+    "spec.json": "72ca895279142170748c26dc6877a7930f6a34e83a3318f91e241fc5bc1fbc61",
+    "equivalentes.lib": "8ad0d7edad57c42b872213cea348b4e4b342baa6ce5c65eb7793a664fbb65f3a",
+    "check_power.py": "d5cdd45cf855d404adb87a0185e38dc73873e1ea79357d4b0c44ccdefaf5cd30"
+  },
+  "export_sha256": "789f989634c7517d196f1aab50ad0f958d887eb4730fc2c52032cb779044d716"
+}

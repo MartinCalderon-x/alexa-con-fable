@@ -1,0 +1,8 @@
+* Equivalentes propios y declarados para el banco de alimentación. NO son modelos del fabricante.
+* Regulador lineal de 3,3 V tipo AP2112K: regula con ganancia finita, cae con la entrada (resistencia de paso)
+* y limita corriente. Sin ruido, PSRR, temperatura ni protección térmica. Parámetros en qa/spec.json.
+.subckt LDO_3V3_DECLARADO VIN GND EN VOUT params: vset=3.3 rpass=0.42 ilim=0.75 gain=200 iq=55u
+Bpass VIN VOUT I = (0.5 + 0.5*tanh((v(EN,GND) - 1.5)*12)) * min(min(max(0, gain*(vset - v(VOUT,GND))), ilim), max(0, v(VIN,VOUT)/rpass))
+Iq VIN GND {iq}
+Rleak VOUT GND 1meg
+.ends LDO_3V3_DECLARADO
