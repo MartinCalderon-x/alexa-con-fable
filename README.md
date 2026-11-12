@@ -72,3 +72,11 @@ Requisitos y límites de esta versión:
 
 La lista completa está en [docs/DISENO.md](docs/DISENO.md). Lo principal: revisión humana contra las hojas
 de datos, alcance de la antena, temperatura del regulador, corriente por USB y el agujero acústico del micrófono.
+
+## Licencia
+
+El diseño de la placa, los archivos de fabricación y los scripts se publican bajo
+[CERN-OHL-P v2](LICENSE) (hardware abierto, permisiva). Puedes usarla, modificarla y fabricarla
+citando el origen. Se entrega tal cual, sin garantías: es un prototipo que nadie fabricó ni midió.
+
+Fuente: https://github.com/MartinCalderon-x/alexa-con-fable
